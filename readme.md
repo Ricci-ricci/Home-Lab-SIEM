@@ -335,7 +335,7 @@ For every meaningful change, record:
 - How to rollback
 
 ### Documentation rule
-If I didn’t write it down here, I assume it didn’t happen.
+If I didn’t write it down here,  assume it didn’t happen.
 
 ---
 
@@ -357,4 +357,4 @@ If I didn’t write it down here, I assume it didn’t happen.
 ---
 
 ## 10) Disclaimer
-This lab is for educational purposes only. I only test systems I own or have explicit permission to test. I keep vulnerable VMs isolated from the internet and my home network.
+This lab is for educational purposes only. I only test systems you own or have explicit permission to test. I keep vulnerable VMs isolated from the internet and my home network.
