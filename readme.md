@@ -197,18 +197,41 @@ This gives me a “mostly isolated” setup:
 
 ### Step 4 — Install Wazuh (all-in-one)
 
+**Actual notes from my build (what happened):**
+- I initially had only **Host-Only** networking enabled (one adapter).
+- I saw **“Network is unreachable”** when trying to download/install (no default route to the internet).
+- Fix: I enabled a second VirtualBox adapter:
+  - Adapter 1: **Host-Only** (LAB-INT)
+  - Adapter 2: **NAT** (internet for updates/packages)
+- After enabling Adapter 2, Ubuntu showed two interfaces:
+  - `enp0s3` (Host-Only) with IP `192.168.56.103/24`
+  - `enp0s8` (NAT) for internet access
+- My `ip route` initially had only the LAB subnet route (no `default` route), because my netplan YAML only configured `enp0s3`.
+- I edited my netplan config to add DHCP for `enp0s8` too (so it would get an IP + default route).
+- After that, I validated internet access by pinging `8.8.8.8` successfully before installing Wazuh.
+
 **Goal:** Install Wazuh Manager + Indexer + Dashboard in my Wazuh VM.
 
 **Approach:**
-- I install via the official Wazuh all-in-one installation method for Ubuntu.
+- I install via the official Wazuh all-in-one installation method for Ubuntu (installer script).
+- I make sure the VM has:
+  - Host-Only IP (for dashboard access from Kali)
+  - NAT internet access (to download packages)
 - I keep a record of:
-  - Dashboard URL
+  - Dashboard URL (Host-Only IP)
   - Initial credentials (I store these securely; I do not commit secrets)
 
+**Validation (what I actually checked):**
+- I confirmed my VM Host-Only IP with `ip a` (this ended up being `192.168.56.103/24`).
+- I confirmed internet worked (NAT) by successfully pinging `8.8.8.8`.
+- I ran the Wazuh all-in-one installer and waited for it to complete.
+  - The installation took a long time (around ~1 hour on my setup with 6 GB RAM).
+- After install finished, I obtained the credentials from the installer output and kept them private (not stored in git).
+
 **Validation:**
-- The dashboard is reachable from my Kali host browser:
-  - `https://192.168.56.10`
-- I can log into the dashboard.
+- The dashboard is reachable from my Kali host browser at my Wazuh VM’s **Host-Only IP**:
+  - `https://192.168.56.103`
+- I can log into the dashboard successfully using the generated credentials.
 
 > **Security note:** I do not store passwords in this repo. I use a password manager or a `secrets.local.md` that is excluded from version control.
 
@@ -258,12 +281,48 @@ This gives me a “mostly isolated” setup:
   - Windows 10, Ubuntu 24, Metasploitable 2
 - I decided to add a SIEM:
   - Wazuh all-in-one on an Ubuntu Server VM
-- I started downloading:
+- I downloaded:
   - Ubuntu Server 24.04.3 ISO
 - I installed Ubuntu Server on a new VM:
   - CLI-only environment confirmed (expected for server)
 
-> I’ll add the next entry once I finish Wazuh VM networking and the Wazuh installation.
+### 2026-02-09 — Wazuh VM networking + installation + dashboard validation
+**Goal:** Get Wazuh all-in-one installed and reachable from my Kali host browser.
+
+**What I observed (and fixed):**
+- My Wazuh VM initially had only **Host-Only** networking enabled.
+- When I attempted install/download steps, I hit **“Network is unreachable”** because there was no internet route (no NAT / no default route).
+
+**What I changed (VirtualBox):**
+- I configured **2 adapters** on the Wazuh VM:
+  - Adapter 1: **Host-Only** (LAB-INT)
+  - Adapter 2: **NAT** (for internet access during installation/updates)
+
+**What I verified (Ubuntu CLI):**
+- `ip a` showed two interfaces:
+  - `enp0s3` with `192.168.56.103/24` (Host-Only)
+  - `enp0s8` (NAT)
+- `ip route` initially showed only the `192.168.56.0/24` route (no default route), because netplan only configured `enp0s3`.
+
+**Netplan fix I made:**
+- I updated my netplan YAML to enable DHCP on **both** NICs:
+  - `enp0s3: dhcp4: true`
+  - `enp0s8: dhcp4: true`
+- After applying netplan, I confirmed internet works by successfully pinging `8.8.8.8`.
+
+**Wazuh install outcome:**
+- I ran the Wazuh all-in-one installer.
+- The installation took a long time (~1 hour) on my setup (6 GB RAM).
+- The install finished successfully.
+
+**Dashboard access validation:**
+- From my Kali host, I accessed the dashboard at:
+  - `https://192.168.56.103`
+- I logged in successfully with the generated credentials (stored privately, not committed).
+
+**Notes to self (operational):**
+- I will keep using the Host-Only IP for day-to-day dashboard access.
+- If my Host-Only IP changes in the future (DHCP), I should switch to a static IP on LAB-INT for stability.
 
 ---
 
