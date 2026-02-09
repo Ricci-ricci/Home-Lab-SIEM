@@ -18,7 +18,7 @@ I’m building an environment that supports:
 - Investigation workflows (pivoting on endpoints, timeline, auth events, process activity)
 - Simulated in-lab attacks and validation of detections
 
-### Job-relevant skills I’ll practice
+###  skills to practice
 - Virtualization and lab network design
 - Windows telemetry (event logs + Sysmon)
 - Linux telemetry (auth logs, process, file integrity)
@@ -27,7 +27,7 @@ I’m building an environment that supports:
 
 ---
 
-## 2) My current inventory
+## 2) My current environment and resources
 
 ### Physical machines I’m using
 - **Kali Linux PC (VirtualBox host)**
@@ -47,7 +47,6 @@ I’m building an environment that supports:
 ### New VM I’m adding (in progress)
 - `Ubuntu Server 24.04.3` VM for **Wazuh all-in-one** (SIEM)
 
-> Note to self: Wazuh is installed **inside** an Ubuntu Server VM. There isn’t a special “Wazuh OS ISO” for this approach.
 
 ---
 
