@@ -9,6 +9,17 @@ This repository is my job-focused cybersecurity home lab build journal. I’m do
 
 ---
 
+## Docs (start here)
+I’m splitting detailed how-tos and the roadmap into `docs/` so the `README` stays concise and navigational.
+
+- Roadmap: `docs/ROADMAP.md`
+- Guides:
+  - Wazuh Agent (Ubuntu 24.04): `docs/guides/wazuh-agent-ubuntu24.md`
+- Troubleshooting:
+  - Ubuntu 24 enrollment notes: `docs/troubleshooting/wazuh-ubuntu24-agent-enrollment.md`
+
+---
+
 ## 1) Objectives (What I’m building and why)
 
 ### Primary objective: SOC / Blue Team fundamentals (with Purple Team practice)
@@ -341,18 +352,11 @@ If I didn’t write it down here,  assume it didn’t happen.
 
 ## 9) Roadmap
 
-### v1 (current)
-- [ ] Wazuh all-in-one running
-- [ ] Windows 10 agent sending logs
-- [ ] Ubuntu 24 agent sending logs
-- [ ] Basic attack simulations + evidence
+The detailed roadmap lives in `docs/ROADMAP.md`.
 
-### v2 (enterprise realism)
-- [ ] Add Windows Server (Active Directory)
-- [ ] Domain-join Windows 10
-- [ ] Add OPNsense/pfSense VM for segmentation and logging
-- [ ] Add vuln scanning (OpenVAS)
-- [ ] Write 3–5 detection rules + tuning notes
+Current highlights:
+- v1: Wazuh all-in-one + Windows 10 + Ubuntu 24 agents + basic purple-team validation
+- v2: AD + segmentation (pfSense/OPNsense) + vuln scanning + detection tuning
 
 ---
 
