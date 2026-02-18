@@ -52,7 +52,7 @@ I’m building an environment that supports:
 
 ### VirtualBox VMs I already have
 - `Windows 10` (endpoint/victim)
-- `Ubuntu 24` (endpoint/server)
+- `Ubuntu 22.04` (endpoint/server)
 - `Metasploitable 2` (intentionally vulnerable target)
 
 ### New VM I’m adding (in progress)
